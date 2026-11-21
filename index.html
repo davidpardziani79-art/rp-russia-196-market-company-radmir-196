@@ -171,9 +171,9 @@ async function renderTasks(){if(!$('taskCards'))return;shownDay=day();$('taskDay
  }}
 function showProof(blob,container){const url=URL.createObjectURL(blob);objectURLs.push(url);const img=document.createElement('img');img.className='task-proof';img.alt='Загруженный скриншот';img.src=url;container.replaceChildren(img)}
 function stop(){const host=$('monaPlayer');if(host)host.replaceChildren()}
-function play(){const host=$('monaPlayer');if(!host||host.querySelector('iframe'))return;const frame=document.createElement('iframe');frame.src=monaUrl+'&autoplay=1';frame.title='Mona — Da Vinci · Apple Music';frame.loading='lazy';frame.allow='autoplay *; encrypted-media *; fullscreen *';frame.sandbox='allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation';frame.style.cssText='width:1px;height:1px;border:0;opacity:0;pointer-events:none';host.append(frame)}
+function play(){const host=$('monaPlayer');if(!host||host.querySelector('iframe'))return;const frame=document.createElement('iframe');frame.src=monaUrl+'&autoplay=1';frame.title='Mona — Da Vinci · Apple Music';frame.loading='eager';frame.allow='autoplay *; encrypted-media *; fullscreen *';frame.sandbox='allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation';frame.style.cssText='width:1px;height:1px;border:0;opacity:0;pointer-events:none';host.append(frame)}
 // Capture phase: run before the site's existing navigation listener.
-document.addEventListener('click',e=>{const nav=e.target.closest('[data-go]');if(!nav)return;const dest=nav.dataset.go;if(dest==='tasks'){if(shownDay!==day()||!$('taskCards').children.length)renderTasks();setTimeout(()=>{if($('tasks').classList.contains('active'))play()},0)}else stop()},true);
+document.addEventListener('click',e=>{const nav=e.target.closest('[data-go]');if(!nav)return;const dest=nav.dataset.go;if(dest==='tasks'){if(shownDay!==day()||!$('taskCards').children.length)renderTasks();play()}else stop()},true);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();else if($('tasks').classList.contains('active'))play()});
 setInterval(()=>{if($('tasks').classList.contains('active')&&shownDay!==day())renderTasks()},60000);
 })();
